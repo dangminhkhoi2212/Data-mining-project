@@ -1,32 +1,34 @@
 import React from "react";
 import axios from "axios";
+import { minmaxScaler } from "./minmax";
 const URL_SERVER = "http://127.0.0.1:5000";
 const buttons = [
   {
     title: "Decision Tree",
-
-    accuracy: 99,
-    model: "../model/decision_tree_model.json",
+    accuracy: "92.388",
+    model: "DT",
   },
-  { title: "Bayes", model: "", accuracy: 99 },
+  { title: "Bayes", model: "BY", accuracy: 99 },
   {
-    title: "Random forest ",
-
-    accuracy: 99,
-    path: "client/src/model/RF_model.pkl",
+    title: "Random forest",
+    model: "RF",
+    accuracy: "92.782",
   },
-  { title: "MLP", model: "", accuracy: 99 },
-  { title: "KNN", model: "", accuracy: 99 },
-  { title: "SVM", model: "", accuracy: 99 },
+  { title: "MLP", model: "MLP", accuracy: "93.044" },
+  { title: "KNN", model: "KNN", accuracy: "94.36" },
+  { title: "SVC", model: "SVC", accuracy: 99 },
 ];
-const Model = ({ formData }) => {
-  const handlePredict = async (model_path) => {
+const Model = ({ formData, setPredict }) => {
+  const handlePredict = async (model) => {
     try {
-      console.log("🚀 ~ handlePredict ~ model:", model_path);
-      const data = Object.keys(formData).map((key) => formData[key]);
+      console.log("🚀 ~ handlePredict ~ model:", model);
+      const data = minmaxScaler(formData);
       console.log("🚀 ~ handlePredict ~ data:", data);
 
-      const result = (await axios.post(`${URL_SERVER}/predict`, { data })).data;
+      const result = (
+        await axios.post(`${URL_SERVER}/predict`, { data, model })
+      ).data;
+      setPredict(result.prediction[0]);
 
       console.log("🚀 ~ handlePredict ~ result:", result);
     } catch (error) {
@@ -47,6 +49,7 @@ const Model = ({ formData }) => {
             <span className="italic">Độ chính xác: {button.accuracy}</span>
           </div>
           <button
+            type="button"
             onClick={() => handlePredict(button.model)}
             className="ring-1 px-3 py-2 ring-black rounded-lg hover:bg-[#fca699] font-semibold hover:ring-[#fca699] hover:text-white"
           >

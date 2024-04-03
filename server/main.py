@@ -18,16 +18,18 @@ def predict():
         form = request.json['data']
         type_model = request.json['model']
         if type_model == 'DT':
-            model = pickle.load(open("./model/DT_model.pkl", "rb"))
+            model = pickle.load(open("./model/huy_DT_model.pkl", "rb"))
         elif type_model == 'RF':
-            model = pickle.load(open("./model/RF_model.pkl", "rb"))
+            model = pickle.load(open("./model/huy_RF_model.pkl", "rb"))
+        elif type_model == 'MLP':
+            model = pickle.load(open("./model/huy_MLP_model.pkl", "rb"))
+        elif type_model == 'BY':
+            model = pickle.load(open("./model/van_Bayes_model.pkl", "rb"))
+        elif type_model == 'KNN':
+            model = pickle.load(open("./model/van_KNN_model.pkl", "rb"))
         else:
-            # type_model=='MLP'
-            model = pickle.load(open("./model/MLP_model.pkl", "rb"))
-        # elif type_model=='RF':
-        #     model= pickle.load(open("./model/RF_model.pkl", "rb"))
-        # elif type_model=='RF':
-        #     model= pickle.load(open("./model/RF_model.pkl", "rb"))
+            model = pickle.load(open("./model/van_SVC_model.pkl", "rb"))
+
         features = [np.array(form)]
         prediction = model.predict(features)
         # print(f"🚀 ~ form: {prediction}",file=sys.stderr )
