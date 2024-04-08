@@ -13,6 +13,7 @@ function App() {
     convexArea: 0.0,
     extent: 0.0,
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [predict, setPredict] = useState("");
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -30,8 +31,12 @@ function App() {
             <Form handleChange={handleChange} />
           </section>
           <section className="col-span-8 flex flex-col gap-3 row-span-1">
-            <Model formData={formData} setPredict={setPredict} />
-            <Predict predict={predict}></Predict>
+            <Model
+              formData={formData}
+              setPredict={setPredict}
+              setIsLoading={setIsLoading}
+            />
+            <Predict predict={predict} isLoading={isLoading}></Predict>
           </section>
         </form>
       </div>

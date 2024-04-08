@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { minmaxScaler } from "./minmax";
 const URL_SERVER = "http://127.0.0.1:5000";
+// const URL_SERVER = "https://data-mining-project-rpdo.vercel.app";
 const buttons = [
   {
     title: "Decision Tree",
@@ -18,16 +19,24 @@ const buttons = [
   { title: "KNN", model: "KNN", accuracy: "94.36" },
   { title: "SVC", model: "SVC", accuracy: 99 },
 ];
-const Model = ({ formData, setPredict }) => {
+const Model = ({ formData, setPredict, setIsLoading }) => {
   const handlePredict = async (model) => {
     try {
+      setIsLoading(true);
       console.log("🚀 ~ handlePredict ~ model:", model);
       const data = minmaxScaler(formData);
-      console.log("🚀 ~ handlePredict ~ data:", data);
 
+      console.log("🚀 ~ handlePredict ~ data:", data);
       const result = (
-        await axios.post(`${URL_SERVER}/predict`, { data, model })
+        await axios.post(
+          `${URL_SERVER}/predict`,
+          { data, model },
+          { headers: { "Access-Control-Allow-Origin": "*" } }
+        )
       ).data;
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
       setPredict(result.prediction[0]);
 
       console.log("🚀 ~ handlePredict ~ result:", result);

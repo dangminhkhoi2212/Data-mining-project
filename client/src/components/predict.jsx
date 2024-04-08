@@ -1,9 +1,11 @@
 import React from "react";
 
-const Predict = ({ predict }) => {
+const Predict = ({ predict, isLoading }) => {
   return (
     <div className="rounded-lg ring-1 ring-black flex flex-grow justify-center flex-col items-center">
-      {predict ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : predict ? (
         <p>
           Đây là loại lúa: <span className="font-bold">{predict}</span>
         </p>
