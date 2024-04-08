@@ -7,7 +7,7 @@ const Predict = ({ predict, isLoading }) => {
         <p>Loading...</p>
       ) : predict ? (
         <p>
-          Đây là loại lúa: <span className="font-bold">{predict}</span>
+          Đây là loại gạo: <span className="font-bold">{predict}</span>
         </p>
       ) : (
         <p>Kết quả dự đoán...</p>
